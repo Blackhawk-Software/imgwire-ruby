@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Imgwire
   ClientOptions = Struct.new(
     :api_key,
@@ -7,6 +9,6 @@ module Imgwire
     :max_retries,
     :backoff_factor,
     :upload_http_client,
-    keyword_init: true,
+    keyword_init: true
   )
 end

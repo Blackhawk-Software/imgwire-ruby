@@ -1,4 +1,6 @@
-require "forwardable"
+# frozen_string_literal: true
+
+require 'forwardable'
 
 module Imgwire
   module Pagination
@@ -8,7 +10,7 @@ module Imgwire
       :limit,
       :prev_page,
       :next_page,
-      keyword_init: true,
+      keyword_init: true
     ) do
       def self.from_headers(headers)
         normalized = {}
@@ -17,11 +19,11 @@ module Imgwire
         end
 
         new(
-          total_count: parse_int(normalized["x-total-count"]),
-          page: parse_int(normalized["x-page"]),
-          limit: parse_int(normalized["x-limit"]),
-          prev_page: parse_int(normalized["x-prev-page"]),
-          next_page: parse_int(normalized["x-next-page"]),
+          total_count: parse_int(normalized['x-total-count']),
+          page: parse_int(normalized['x-page']),
+          limit: parse_int(normalized['x-limit']),
+          prev_page: parse_int(normalized['x-prev-page']),
+          next_page: parse_int(normalized['x-next-page'])
         )
       end
 
@@ -29,7 +31,7 @@ module Imgwire
         return nil if value.nil?
 
         normalized = value.to_s.strip.downcase
-        return nil if normalized.empty? || normalized == "null" || normalized == "none"
+        return nil if normalized.empty? || normalized == 'null' || normalized == 'none'
 
         normalized.to_i
       end
@@ -68,13 +70,11 @@ module Imgwire
         @page_enumerator = page_enumerator
       end
 
-      def each
+      def each(&block)
         return enum_for(:each) unless block_given?
 
         @page_enumerator.each do |page|
-          page.data.each do |item|
-            yield item
-          end
+          page.data.each(&block)
         end
       end
     end

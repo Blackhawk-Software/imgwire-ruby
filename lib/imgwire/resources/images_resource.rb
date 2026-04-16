@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Imgwire
   module Resources
     class ImagesResource < BaseResource
@@ -9,14 +11,14 @@ module Imgwire
 
       def bulk_delete(payload)
         @api.images_bulk_delete(
-          coerce_model(ImgwireGenerated::BulkDeleteImagesSchema, payload),
+          coerce_model(ImgwireGenerated::BulkDeleteImagesSchema, payload)
         )
       end
 
       def create(payload, upload_token: nil)
         response = @api.images_create(
           coerce_model(ImgwireGenerated::StandardUploadCreateSchema, payload),
-          upload_token: upload_token,
+          upload_token: upload_token
         )
         response.image = Image.wrap(response.image)
         response
@@ -24,7 +26,7 @@ module Imgwire
 
       def create_bulk_download_job(payload)
         @api.images_create_bulk_download_job(
-          coerce_model(ImgwireGenerated::ImageDownloadJobCreateSchema, payload),
+          coerce_model(ImgwireGenerated::ImageDownloadJobCreateSchema, payload)
         )
       end
 
@@ -74,7 +76,7 @@ module Imgwire
           file: file,
           file_name: file_name,
           mime_type: mime_type,
-          content_length: content_length,
+          content_length: content_length
         )
 
         created = create(
@@ -85,8 +87,8 @@ module Imgwire
             hash_sha256: hash_sha256,
             idempotency_key: idempotency_key,
             mime_type: resolved.mime_type,
-            purpose: purpose,
-          },
+            purpose: purpose
+          }
         )
 
         @options.upload_http_client.put(
@@ -94,7 +96,7 @@ module Imgwire
           resolved,
           timeout: @options.timeout,
           max_retries: @options.max_retries,
-          backoff_factor: @options.backoff_factor,
+          backoff_factor: @options.backoff_factor
         )
 
         created.image

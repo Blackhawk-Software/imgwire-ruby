@@ -1,14 +1,16 @@
+# frozen_string_literal: true
+
 module Imgwire
   module Resources
     class CorsOriginsResource < BaseResource
       def initialize(api_client)
-        super(api_client)
+        super
         @api = ImgwireGenerated::CorsOriginsApi.new(api_client)
       end
 
       def create(payload)
         @api.cors_origins_create(
-          coerce_model(ImgwireGenerated::CorsOriginCreateSchema, payload),
+          coerce_model(ImgwireGenerated::CorsOriginCreateSchema, payload)
         )
       end
 
@@ -37,7 +39,7 @@ module Imgwire
       def update(cors_origin_id, payload)
         @api.cors_origins_update(
           cors_origin_id,
-          coerce_model(ImgwireGenerated::CorsOriginUpdateSchema, payload),
+          coerce_model(ImgwireGenerated::CorsOriginUpdateSchema, payload)
         )
       end
     end

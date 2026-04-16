@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Imgwire
   module Resources
     class BaseResource
@@ -19,7 +21,7 @@ module Imgwire
         _data, _status, headers = response
         Pagination::Page.new(
           data: data,
-          pagination: Pagination::Metadata.from_headers(headers || {}),
+          pagination: Pagination::Metadata.from_headers(headers || {})
         )
       end
     end

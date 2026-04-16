@@ -1,4 +1,6 @@
-require "uri"
+# frozen_string_literal: true
+
+require 'uri'
 
 module Imgwire
   class Client
@@ -6,7 +8,7 @@ module Imgwire
 
     def initialize(
       api_key:,
-      base_url: "https://api.imgwire.dev",
+      base_url: 'https://api.imgwire.dev',
       environment_id: nil,
       timeout: 30,
       max_retries: 2,
@@ -15,12 +17,12 @@ module Imgwire
     )
       @options = ClientOptions.new(
         api_key: api_key,
-        base_url: base_url.sub(%r{/\z}, ""),
+        base_url: base_url.sub(%r{/\z}, ''),
         environment_id: environment_id,
         timeout: timeout,
         max_retries: max_retries,
         backoff_factor: backoff_factor,
-        upload_http_client: upload_http_client || HTTP::UploadClient.new,
+        upload_http_client: upload_http_client || HTTP::UploadClient.new
       )
 
       configuration = ImgwireGenerated::Configuration.new
@@ -28,11 +30,9 @@ module Imgwire
       configuration.timeout = @options.timeout
 
       @api_client = ImgwireGenerated::ApiClient.new(configuration)
-      @api_client.default_headers["Authorization"] = "Bearer #{api_key}"
-      @api_client.default_headers["User-Agent"] = "imgwire-ruby/#{Imgwire::VERSION}"
-      if environment_id
-        @api_client.default_headers["X-Environment-Id"] = environment_id
-      end
+      @api_client.default_headers['Authorization'] = "Bearer #{api_key}"
+      @api_client.default_headers['User-Agent'] = "imgwire-ruby/#{Imgwire::VERSION}"
+      @api_client.default_headers['X-Environment-Id'] = environment_id if environment_id
 
       @images = Resources::ImagesResource.new(@api_client, @options)
       @custom_domain = Resources::CustomDomainResource.new(@api_client)

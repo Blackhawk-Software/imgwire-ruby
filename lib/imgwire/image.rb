@@ -1,4 +1,6 @@
-require "uri"
+# frozen_string_literal: true
+
+require 'uri'
 
 module Imgwire
   class Image < ImgwireGenerated::ImageSchema
@@ -7,23 +9,24 @@ module Imgwire
     FORMATS = %w[jpg png avif gif webp].freeze
 
     RULES = {
-      "background" => %w[background bg],
-      "crop" => %w[crop],
-      "enlarge" => %w[enlarge],
-      "format" => %w[format fm],
-      "gravity" => %w[gravity],
-      "height" => %w[height h],
-      "quality" => %w[quality q],
-      "rotate" => %w[rotate rot],
-      "strip_metadata" => %w[strip_metadata strip],
-      "width" => %w[width w],
+      'background' => %w[background bg],
+      'crop' => %w[crop],
+      'enlarge' => %w[enlarge],
+      'format' => %w[format fm],
+      'gravity' => %w[gravity],
+      'height' => %w[height h],
+      'quality' => %w[quality q],
+      'rotate' => %w[rotate rot],
+      'strip_metadata' => %w[strip_metadata strip],
+      'width' => %w[width w]
     }.freeze
 
     def self.wrap(value)
       return value if value.is_a?(self)
+
       if value.is_a?(ImgwireGenerated::ImageSchema)
-        attributes = ImgwireGenerated::ImageSchema.attribute_map.keys.each_with_object({}) do |attribute, result|
-          result[attribute] = value.public_send(attribute)
+        attributes = ImgwireGenerated::ImageSchema.attribute_map.keys.to_h do |attribute|
+          [attribute, value.public_send(attribute)]
         end
         return new(attributes)
       end
@@ -35,7 +38,7 @@ module Imgwire
     def url(options = {})
       options = symbolize_keys(options)
       path = build_preset_path(options[:preset])
-      query = build_query(options.reject { |key, _| key == :preset })
+      query = build_query(options.except(:preset))
 
       uri = URI.parse(cdn_url)
       uri.path = path
@@ -55,18 +58,14 @@ module Imgwire
       return URI.parse(cdn_url).path if preset.nil?
 
       preset = preset.to_s
-      unless PRESETS.include?(preset)
-        raise ArgumentError, "Invalid transformation rule value for preset"
-      end
+      raise ArgumentError, 'Invalid transformation rule value for preset' unless PRESETS.include?(preset)
 
       uri = URI.parse(cdn_url)
-      slash_index = uri.path.rindex("/")
-      prefix = slash_index ? uri.path[0..slash_index] : ""
+      slash_index = uri.path.rindex('/')
+      prefix = slash_index ? uri.path[0..slash_index] : ''
       file_name = slash_index ? uri.path[(slash_index + 1)..] : uri.path
-      dot_index = file_name.rindex(".")
-      if dot_index.nil?
-        raise ArgumentError, "Cannot apply a preset to a CDN URL without a file extension."
-      end
+      dot_index = file_name.rindex('.')
+      raise ArgumentError, 'Cannot apply a preset to a CDN URL without a file extension.' if dot_index.nil?
 
       "#{prefix}#{file_name}@#{preset}"
     end
@@ -92,32 +91,44 @@ module Imgwire
 
     def normalize_rule(canonical, value)
       case canonical
-      when "background"
-        string = value.to_s.delete_prefix("#")
-        raise ArgumentError, "Invalid transformation rule value for #{canonical}" unless string.match?(/\A[\da-fA-F]{6}\z/)
+      when 'background'
+        string = value.to_s.delete_prefix('#')
+        unless string.match?(/\A[\da-fA-F]{6}\z/)
+          raise ArgumentError,
+                "Invalid transformation rule value for #{canonical}"
+        end
 
         string.downcase
-      when "crop", "gravity"
+      when 'crop', 'gravity'
         value.to_s
-      when "enlarge", "strip_metadata"
-        value ? "true" : nil
-      when "format"
+      when 'enlarge', 'strip_metadata'
+        value ? 'true' : nil
+      when 'format'
         string = value.to_s
-        raise ArgumentError, "Invalid transformation rule value for #{canonical}" unless FORMATS.include?(string)
+        unless FORMATS.include?(string)
+          raise ArgumentError,
+                "Invalid transformation rule value for #{canonical}"
+        end
 
         string
-      when "height", "quality", "width"
+      when 'height', 'quality', 'width'
         integer = Integer(value)
-        raise ArgumentError, "Invalid transformation rule value for #{canonical}" unless integer.positive?
+        unless integer.positive?
+          raise ArgumentError,
+                "Invalid transformation rule value for #{canonical}"
+        end
 
         integer.to_s
-      when "rotate"
+      when 'rotate'
         integer = Integer(value)
-        raise ArgumentError, "Invalid transformation rule value for #{canonical}" unless ROTATE_ANGLES.include?(integer)
+        unless ROTATE_ANGLES.include?(integer)
+          raise ArgumentError,
+                "Invalid transformation rule value for #{canonical}"
+        end
 
         integer.to_s
       else
-        value.to_s
+        raise ArgumentError, "Unsupported transformation rule: #{canonical}"
       end
     rescue ArgumentError, TypeError
       raise ArgumentError, "Invalid transformation rule value for #{canonical}"

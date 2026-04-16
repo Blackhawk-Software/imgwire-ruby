@@ -1,5 +1,10 @@
+.DS_Store
 /node_modules
 /vendor/bundle
 /.bundle
+/.rubocop_cache
 /coverage
+/pkg
+/*.gem
+/.rspec_status
 /tmp

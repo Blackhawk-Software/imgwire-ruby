@@ -126,7 +126,14 @@ Or with the repository `Makefile`:
 ```bash
 make install
 make generate
+make lint
 make test
+```
+
+For handwritten Ruby code only, autoformat with:
+
+```bash
+make format-ruby
 ```
 
 The generation pipeline:

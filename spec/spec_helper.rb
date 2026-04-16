@@ -1,7 +1,9 @@
-$LOAD_PATH.unshift(File.expand_path("../lib", __dir__))
-$LOAD_PATH.unshift(File.expand_path("../generated/lib", __dir__))
+# frozen_string_literal: true
 
-require "imgwire"
+$LOAD_PATH.unshift(File.expand_path('../lib', __dir__))
+$LOAD_PATH.unshift(File.expand_path('../generated/lib', __dir__))
+
+require 'imgwire'
 
 RSpec.configure do |config|
   config.disable_monkey_patching!

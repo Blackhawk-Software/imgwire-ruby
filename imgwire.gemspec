@@ -27,5 +27,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "typhoeus", "~> 1.4"
 
+  spec.add_development_dependency "rubocop", "~> 1.81"
+  spec.add_development_dependency "rubocop-rspec", "~> 3.7"
   spec.add_development_dependency "rspec", "~> 3.13"
 end

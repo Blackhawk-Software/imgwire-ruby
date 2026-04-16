@@ -121,6 +121,14 @@ bundle install
 bundle exec rspec
 ```
 
+Or with the repository `Makefile`:
+
+```bash
+make install
+make generate
+make test
+```
+
 The generation pipeline:
 
 ```text

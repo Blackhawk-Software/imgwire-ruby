@@ -4,7 +4,7 @@ NODE ?= yarn
 BUNDLE ?= bundle
 RUBOCOP_CACHE_ROOT ?= .rubocop_cache
 
-.PHONY: help install install-js install-ruby generate verify-generated test build lint lint-ruby format format-ruby clean ci
+.PHONY: help install install-js install-ruby generate verify-generated test build lint lint-ruby format format-ruby release-set clean ci
 
 help:
 	@printf "%s\n" \
@@ -20,6 +20,7 @@ help:
 		"  make lint-ruby          Run RuboCop against lib/ and spec/" \
 		"  make format             Run repository formatting" \
 		"  make format-ruby        Autoformat handwritten Ruby with RuboCop" \
+		"  make release-set VERSION=X.Y.Z  Set package and gem versions manually" \
 		"  make clean              Remove local build artifacts" \
 		"  make ci                 Run generation verification, tests, and gem build"
 
@@ -54,6 +55,10 @@ format:
 
 format-ruby:
 	RUBOCOP_CACHE_ROOT=$(RUBOCOP_CACHE_ROOT) $(BUNDLE) exec rubocop -A lib spec
+
+release-set:
+	@test -n "$(VERSION)" || (echo "VERSION is required. Usage: make release-set VERSION=0.2.0" && exit 1)
+	$(NODE) release:set-version $(VERSION)
 
 clean:
 	rm -rf pkg *.gem $(RUBOCOP_CACHE_ROOT)

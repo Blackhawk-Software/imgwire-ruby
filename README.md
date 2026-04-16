@@ -136,6 +136,12 @@ For handwritten Ruby code only, autoformat with:
 make format-ruby
 ```
 
+To prepare a release version bump:
+
+```bash
+make release-set VERSION=0.2.0
+```
+
 The generation pipeline:
 
 ```text

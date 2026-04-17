@@ -37,6 +37,6 @@ jobs:
       - name: Build gem
         run: gem build imgwire.gemspec
       - name: Configure RubyGems trusted publishing credentials
-        uses: rubygems/configure-rubygems-credentials@v1
+        uses: rubygems/configure-rubygems-credentials@v1.0.0
       - name: Publish gem to RubyGems.org
         run: gem push imgwire-*.gem

@@ -16,13 +16,18 @@ require 'time'
 module ImgwireGenerated
   class SupportedMimeType
     IMAGE_JPEG = "image/jpeg".freeze
+    IMAGE_JXL = "image/jxl".freeze
     IMAGE_PNG = "image/png".freeze
     IMAGE_WEBP = "image/webp".freeze
     IMAGE_AVIF = "image/avif".freeze
     IMAGE_GIF = "image/gif".freeze
+    IMAGE_VND_MICROSOFT_ICON = "image/vnd.microsoft.icon".freeze
+    IMAGE_HEIC = "image/heic".freeze
+    IMAGE_BMP = "image/bmp".freeze
+    IMAGE_TIFF = "image/tiff".freeze
 
     def self.all_vars
-      @all_vars ||= [IMAGE_JPEG, IMAGE_PNG, IMAGE_WEBP, IMAGE_AVIF, IMAGE_GIF].freeze
+      @all_vars ||= [IMAGE_JPEG, IMAGE_JXL, IMAGE_PNG, IMAGE_WEBP, IMAGE_AVIF, IMAGE_GIF, IMAGE_VND_MICROSOFT_ICON, IMAGE_HEIC, IMAGE_BMP, IMAGE_TIFF].freeze
     end
 
     # Builds the enum from string

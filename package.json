@@ -1,7 +1,7 @@
 {
   "name": "imgwire-ruby-tooling",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Tooling and generation pipeline for the imgwire Ruby server SDK.",
   "license": "MIT",
   "packageManager": "yarn@1.22.22",

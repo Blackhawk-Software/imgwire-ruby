@@ -5,7 +5,8 @@ require 'stringio'
 RSpec.describe Imgwire::Resources::ImagesResource do
   def build_generated_image
     ImgwireGenerated::ImageSchema.build_from_hash(
-      'cdn_url' => 'https://cdn.imgwire.dev/example.jpg',
+      'can_upload' => true,
+      'cdn_url' => 'https://cdn.imgwire.dev/example',
       'created_at' => '2026-04-14T00:00:00Z',
       'custom_metadata' => {},
       'deleted_at' => nil,
@@ -16,6 +17,7 @@ RSpec.describe Imgwire::Resources::ImagesResource do
       'height' => 100,
       'id' => 'img_1',
       'idempotency_key' => nil,
+      'is_directly_deliverable' => true,
       'mime_type' => 'image/jpeg',
       'original_filename' => 'example.jpg',
       'processed_metadata_at' => nil,
@@ -69,7 +71,7 @@ RSpec.describe Imgwire::Resources::ImagesResource do
     expect(result.data.first).to be_a(Imgwire::Image)
     expect(result.pagination.total_count).to eq(3)
     expect(result.pagination.next_page).to eq(2)
-    expect(result.data.first.url(preset: 'small')).to eq('https://cdn.imgwire.dev/example.jpg@small')
+    expect(result.data.first.url(preset: 'small')).to eq('https://cdn.imgwire.dev/example@small')
   end
 
   it 'wraps create response images with the transformation helper' do
@@ -87,7 +89,7 @@ RSpec.describe Imgwire::Resources::ImagesResource do
 
     expect(captured_upload_token).to eq('upload_token')
     expect(created.image).to be_a(Imgwire::Image)
-    expect(created.image.url(width: 200)).to eq('https://cdn.imgwire.dev/example.jpg?width=200')
+    expect(created.image.url(width: 200)).to eq('https://cdn.imgwire.dev/example?width=200')
   end
 
   it 'wraps retrieve results with the transformation helper' do
@@ -106,7 +108,7 @@ RSpec.describe Imgwire::Resources::ImagesResource do
     expect(captured_image_id).to eq('img_1')
     expect(image).to be_a(Imgwire::Image)
     expect(image.url(bg: '#ffffff', w: 100)).to eq(
-      'https://cdn.imgwire.dev/example.jpg?background=ffffff&width=100'
+      'https://cdn.imgwire.dev/example?background=ffffff&width=100'
     )
   end
 

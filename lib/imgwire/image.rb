@@ -6,7 +6,7 @@ module Imgwire
   class Image < ImgwireGenerated::ImageSchema
     PRESETS = %w[thumbnail small medium large].freeze
     ROTATE_ANGLES = [0, 90, 180, 270, 360].freeze
-    FORMATS = %w[jpg png avif gif webp].freeze
+    FORMATS = %w[jpg png avif gif webp auto].freeze
 
     RULES = {
       'background' => %w[background bg],
@@ -61,13 +61,7 @@ module Imgwire
       raise ArgumentError, 'Invalid transformation rule value for preset' unless PRESETS.include?(preset)
 
       uri = URI.parse(cdn_url)
-      slash_index = uri.path.rindex('/')
-      prefix = slash_index ? uri.path[0..slash_index] : ''
-      file_name = slash_index ? uri.path[(slash_index + 1)..] : uri.path
-      dot_index = file_name.rindex('.')
-      raise ArgumentError, 'Cannot apply a preset to a CDN URL without a file extension.' if dot_index.nil?
-
-      "#{prefix}#{file_name}@#{preset}"
+      "#{uri.path}@#{preset}"
     end
 
     def build_query(options)

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    imgwire (0.1.0)
+    imgwire (0.2.0)
       typhoeus (~> 1.4)
 
 GEM

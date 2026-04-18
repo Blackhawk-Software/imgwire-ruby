@@ -3,7 +3,8 @@
 RSpec.describe Imgwire::Image do
   def build_image
     described_class.build_from_hash(
-      'cdn_url' => 'https://cdn.imgwire.dev/example.jpg',
+      'can_upload' => true,
+      'cdn_url' => 'https://cdn.imgwire.dev/example',
       'created_at' => '2026-04-14T00:00:00Z',
       'custom_metadata' => {},
       'deleted_at' => nil,
@@ -14,6 +15,7 @@ RSpec.describe Imgwire::Image do
       'height' => 100,
       'id' => 'img_1',
       'idempotency_key' => nil,
+      'is_directly_deliverable' => true,
       'mime_type' => 'image/jpeg',
       'original_filename' => 'example.jpg',
       'processed_metadata_at' => nil,
@@ -32,7 +34,7 @@ RSpec.describe Imgwire::Image do
     expect(
       image.url(preset: 'thumbnail', bg: '#ffffff', h: 150, rot: 90, w: 150)
     ).to eq(
-      'https://cdn.imgwire.dev/example.jpg@thumbnail?background=ffffff&height=150&rotate=90&width=150'
+      'https://cdn.imgwire.dev/example@thumbnail?background=ffffff&height=150&rotate=90&width=150'
     )
   end
 
@@ -42,8 +44,14 @@ RSpec.describe Imgwire::Image do
     expect(
       image.url(enlarge: false, strip_metadata: true)
     ).to eq(
-      'https://cdn.imgwire.dev/example.jpg?strip_metadata=true'
+      'https://cdn.imgwire.dev/example?strip_metadata=true'
     )
+  end
+
+  it 'allows auto as an output format' do
+    image = build_image
+
+    expect(image.url(format: 'auto')).to eq('https://cdn.imgwire.dev/example?format=auto')
   end
 
   it 'rejects duplicate aliases' do

@@ -15,6 +15,8 @@ require 'time'
 
 module ImgwireGenerated
   class ImageSchema
+    attr_accessor :can_upload
+
     attr_accessor :cdn_url
 
     attr_accessor :created_at
@@ -36,6 +38,8 @@ module ImgwireGenerated
     attr_accessor :id
 
     attr_accessor :idempotency_key
+
+    attr_accessor :is_directly_deliverable
 
     attr_accessor :mime_type
 
@@ -80,6 +84,7 @@ module ImgwireGenerated
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
+        :'can_upload' => :'can_upload',
         :'cdn_url' => :'cdn_url',
         :'created_at' => :'created_at',
         :'custom_metadata' => :'custom_metadata',
@@ -91,6 +96,7 @@ module ImgwireGenerated
         :'height' => :'height',
         :'id' => :'id',
         :'idempotency_key' => :'idempotency_key',
+        :'is_directly_deliverable' => :'is_directly_deliverable',
         :'mime_type' => :'mime_type',
         :'original_filename' => :'original_filename',
         :'processed_metadata_at' => :'processed_metadata_at',
@@ -116,6 +122,7 @@ module ImgwireGenerated
     # Attribute type mapping.
     def self.openapi_types
       {
+        :'can_upload' => :'Boolean',
         :'cdn_url' => :'String',
         :'created_at' => :'Time',
         :'custom_metadata' => :'Hash<String, CustomMetadataValue>',
@@ -127,6 +134,7 @@ module ImgwireGenerated
         :'height' => :'Integer',
         :'id' => :'String',
         :'idempotency_key' => :'String',
+        :'is_directly_deliverable' => :'Boolean',
         :'mime_type' => :'SupportedMimeType',
         :'original_filename' => :'String',
         :'processed_metadata_at' => :'Time',
@@ -167,6 +175,12 @@ module ImgwireGenerated
         end
         h[k.to_sym] = v
       }
+
+      if attributes.key?(:'can_upload')
+        self.can_upload = attributes[:'can_upload']
+      else
+        self.can_upload = nil
+      end
 
       if attributes.key?(:'cdn_url')
         self.cdn_url = attributes[:'cdn_url']
@@ -238,6 +252,12 @@ module ImgwireGenerated
         self.idempotency_key = nil
       end
 
+      if attributes.key?(:'is_directly_deliverable')
+        self.is_directly_deliverable = attributes[:'is_directly_deliverable']
+      else
+        self.is_directly_deliverable = nil
+      end
+
       if attributes.key?(:'mime_type')
         self.mime_type = attributes[:'mime_type']
       else
@@ -298,6 +318,10 @@ module ImgwireGenerated
     def list_invalid_properties
       warn '[DEPRECATED] the `list_invalid_properties` method is obsolete'
       invalid_properties = Array.new
+      if @can_upload.nil?
+        invalid_properties.push('invalid value for "can_upload", can_upload cannot be nil.')
+      end
+
       if @cdn_url.nil?
         invalid_properties.push('invalid value for "cdn_url", cdn_url cannot be nil.')
       end
@@ -324,6 +348,10 @@ module ImgwireGenerated
 
       if @id.nil?
         invalid_properties.push('invalid value for "id", id cannot be nil.')
+      end
+
+      if @is_directly_deliverable.nil?
+        invalid_properties.push('invalid value for "is_directly_deliverable", is_directly_deliverable cannot be nil.')
       end
 
       if @mime_type.nil?
@@ -357,6 +385,7 @@ module ImgwireGenerated
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
+      return false if @can_upload.nil?
       return false if @cdn_url.nil?
       return false if @created_at.nil?
       return false if @custom_metadata.nil?
@@ -364,6 +393,7 @@ module ImgwireGenerated
       return false if @extension.nil?
       return false if @height.nil?
       return false if @id.nil?
+      return false if @is_directly_deliverable.nil?
       return false if @mime_type.nil?
       return false if @original_filename.nil?
       return false if @size_bytes.nil?
@@ -371,6 +401,16 @@ module ImgwireGenerated
       return false if @updated_at.nil?
       return false if @width.nil?
       true
+    end
+
+    # Custom attribute writer method with validation
+    # @param [Object] can_upload Value to be assigned
+    def can_upload=(can_upload)
+      if can_upload.nil?
+        fail ArgumentError, 'can_upload cannot be nil'
+      end
+
+      @can_upload = can_upload
     end
 
     # Custom attribute writer method with validation
@@ -444,6 +484,16 @@ module ImgwireGenerated
     end
 
     # Custom attribute writer method with validation
+    # @param [Object] is_directly_deliverable Value to be assigned
+    def is_directly_deliverable=(is_directly_deliverable)
+      if is_directly_deliverable.nil?
+        fail ArgumentError, 'is_directly_deliverable cannot be nil'
+      end
+
+      @is_directly_deliverable = is_directly_deliverable
+    end
+
+    # Custom attribute writer method with validation
     # @param [Object] mime_type Value to be assigned
     def mime_type=(mime_type)
       if mime_type.nil?
@@ -508,6 +558,7 @@ module ImgwireGenerated
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
+          can_upload == o.can_upload &&
           cdn_url == o.cdn_url &&
           created_at == o.created_at &&
           custom_metadata == o.custom_metadata &&
@@ -519,6 +570,7 @@ module ImgwireGenerated
           height == o.height &&
           id == o.id &&
           idempotency_key == o.idempotency_key &&
+          is_directly_deliverable == o.is_directly_deliverable &&
           mime_type == o.mime_type &&
           original_filename == o.original_filename &&
           processed_metadata_at == o.processed_metadata_at &&
@@ -539,7 +591,7 @@ module ImgwireGenerated
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [cdn_url, created_at, custom_metadata, deleted_at, environment_id, exif_data, extension, hash_sha256, height, id, idempotency_key, mime_type, original_filename, processed_metadata_at, purpose, size_bytes, status, updated_at, upload_token_id, width].hash
+      [can_upload, cdn_url, created_at, custom_metadata, deleted_at, environment_id, exif_data, extension, hash_sha256, height, id, idempotency_key, is_directly_deliverable, mime_type, original_filename, processed_metadata_at, purpose, size_bytes, status, updated_at, upload_token_id, width].hash
     end
 
     # Builds the object from hash

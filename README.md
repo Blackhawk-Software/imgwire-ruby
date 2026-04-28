@@ -1,12 +1,18 @@
+![imgwire.dev Logo](https://cdn.imgwire.dev/6b024480-a5ac-426d-b539-2e4fccc4c6ac/26f80c13-48bd-4bb9-866e-5e9392b11a6a/4ba5fe50-433b-40db-a847-938d2081c21a?w=280&quality=80)
+
 # `imgwire`
 
 [![RubyGems version](https://img.shields.io/gem/v/imgwire.svg)](https://rubygems.org/gems/imgwire)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![CI](https://github.com/Blackhawk-Software/imgwire-ruby/actions/workflows/ci.yml/badge.svg)](https://github.com/Blackhawk-Software/imgwire-ruby/actions/workflows/ci.yml)
 [![Release](https://github.com/Blackhawk-Software/imgwire-ruby/actions/workflows/release.yml/badge.svg)](https://github.com/Blackhawk-Software/imgwire-ruby/actions/workflows/release.yml)
 
 `imgwire` is the server-side Ruby SDK for the imgwire API.
 
 Use it in Rails apps, workers, jobs, and other backend runtimes to authenticate with a Server API Key, upload files from Ruby IO objects, manage server-side resources, and generate image transformation URLs without rebuilding imgwire request plumbing yourself.
+
+> [!TIP]
+> Obtain an API key by signing up at [imgwire.dev](https://imgwire.dev). Read the full API & SDK documentation [here](https://docs.imgwire.dev/guides/backend-quickstart).
 
 ## Installation
 
